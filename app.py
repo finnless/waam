@@ -1,6 +1,7 @@
 import openai
 import streamlit as st
 import pandas as pd
+import PyPDF2
 
 # Setting page title and header
 st.set_page_config(page_icon=":bulb:", page_title="WAAM-GPT")
@@ -107,6 +108,19 @@ with container:
     with st.form(key='my_form', clear_on_submit=True):
         user_input = st.text_area("", placeholder="What do you want to learn today?", key='input', height=10)
         submit_button = st.form_submit_button(label= '⏩')
+        # create a file uploader for PDFs
+        pdf_file = st.file_uploader("Upload a PDF file", type="pdf")
+
+        # if a PDF file is uploaded, extract its text
+        if pdf_file is not None:
+            pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+            num_pages = pdf_reader.getNumPages()
+            text = ""
+            for page_num in range(num_pages):
+                page = pdf_reader.getPage(page_num)
+                page_text = page.extractText()
+                text += page_text
+            st.write(text)
 
     if submit_button and user_input:
         output, total_tokens, prompt_tokens, completion_tokens = generate_response(user_input)
@@ -122,12 +136,40 @@ st.markdown("""
         .waam {
             background-color: #ffffff;
         }
+        .like {
+            position: absolute;
+            top: 0px;
+            right: 60px;
+        }
+        .dislike {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-# Display messages with appropriate CSS class
+# Define a dictionary to store the number of upvotes and downvotes for each message
+votes = {}
+
+# Display messages with appropriate CSS class and upvote/downvote buttons
 if st.session_state['generated']:
     with response_container:
         for i in range(len(st.session_state['generated'])):
+            message = st.session_state['generated'][i]
             st.markdown(f"<div class='you'>🧑‍🎓: {st.session_state['past'][i]}</div>", unsafe_allow_html=True)
-            st.markdown(f"<div class='waam'>🏫: {st.session_state['generated'][i]}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='waam'>🏫: {message}</div>", unsafe_allow_html=True)
+            if message not in votes:
+                votes[message] = [0, 0]
+            upvote_button = st.button(f"👍 ({votes[message][0]})", key=f"upvote_{i}")
+            downvote_button = st.button(f"👎 ({votes[message][1]})", key=f"downvote_{i}")
+            if upvote_button:
+                votes[message][0] += 1
+            elif downvote_button:
+                votes[message][1] += 1
+
+
+
+
+
+
