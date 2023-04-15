@@ -8,6 +8,8 @@ st.set_page_config(page_title="waam", page_icon=":robot_face:")
 openai.organization = st.secrets["openai_org"]
 openai.api_key = st.secrets["openai_key"]
 
+system_prompt = "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Never give a student the direct answer. Always use markdown for your responses. Always render equations using LaTeX."
+
 # Initialise session state variables
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
@@ -15,7 +17,7 @@ if 'past' not in st.session_state:
     st.session_state['past'] = []
 if 'messages' not in st.session_state:
     st.session_state['messages'] = [
-        {"role": "system", "content": "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Use markdown for your responses."}
+        {"role": "system", "content": system_prompt}
     ]
 if 'model_name' not in st.session_state:
     st.session_state['model_name'] = []
@@ -44,7 +46,7 @@ if clear_button:
     st.session_state['generated'] = []
     st.session_state['past'] = []
     st.session_state['messages'] = [
-        {"role": "system", "content": "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Use markdown for your responses."}
+        {"role": "system", "content": system_prompt}
     ]
     st.session_state['number_tokens'] = []
     st.session_state['model_name'] = []
