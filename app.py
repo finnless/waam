@@ -113,8 +113,21 @@ with container:
         st.session_state['past'].append(user_input)
         st.session_state['generated'].append(output)
 
+# Define CSS styles for messages
+st.markdown("""
+    <style>
+        .you {
+            background-color: #d3d3d3;
+        }
+        .waam {
+            background-color: #ffffff;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# Display messages with appropriate CSS class
 if st.session_state['generated']:
     with response_container:
         for i in range(len(st.session_state['generated'])):
-            st.markdown(f"**You**: {st.session_state['past'][i]}", unsafe_allow_html=True)
-            st.markdown(f"**waam**: {st.session_state['generated'][i]}", unsafe_allow_html=True)
+            st.markdown(f"<div class='you'>🧑‍🎓: {st.session_state['past'][i]}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='waam'>🏫: {st.session_state['generated'][i]}</div>", unsafe_allow_html=True)
