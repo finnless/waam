@@ -1,15 +1,22 @@
 import openai
 import streamlit as st
 import pandas as pd
+import PyPDF2
 
-import sys
-# Add the directory containing mypdf.py to sys.path
-sys.path.append('/Users/finn/desktop/waam/pdfreader.py')
-# Now you should be able to import mypdf module
+def pdf_reader(file):
+    """Reads text from a PDF file"""
+    try:
+        # Read the uploaded file using PyPDF2
+        pdf = PyPDF2.PdfReader(file)
+        text = ''
+        for page in range(len(pdf.pages)):
+            text += pdf.pages[page].extract_text()
 
-import pdfreader as pdf_read
-
-pdf_read.pdf_reader()
+        return text
+    except Exception as e:
+        # Handle any exceptions that may occur
+        print("Error reading PDF file:", e)
+        return None
 
 
 
@@ -18,8 +25,8 @@ st.set_page_config(page_icon=":bulb:", page_title="WAAM-GPT")
 st.markdown("<div style='text-align: center;'><h1 style='display: inline-block;'> 💡WAAM-GPT</h1><h5 style='display: inline-block; margin-left: 10px; color: gray;'>homework help</h5></div>", unsafe_allow_html=True)
 
 # Set org ID and API key
-openai.organization = st.secrets["openai_org"]
-openai.api_key = st.secrets["openai_key"]
+openai.organization = "org-g7sHaD0F2nWbXgynAv8nbmXI"
+openai.api_key = "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"
 
 system_prompt = "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Never give a student the direct answer. Always use markdown for your responses. Always render equations using LaTeX."
 
@@ -92,11 +99,6 @@ if clear_button:
 def generate_response(prompt):
     st.session_state['messages'].append({"role": "user", "content": prompt})
 
-    
-    # Call the PDF reading functionality from mypdf module
-    pdf_data = pdf_read.pdf_reader(prompt)
-    # Process the PDF data and generate a response
-    response = pdf_data
 
     completion = openai.ChatCompletion.create(
         model=model,
@@ -125,7 +127,15 @@ with container:
         user_input = st.text_area("", placeholder="What do you want to learn today?", key='input', height=10)
         submit_button = st.form_submit_button(label= '⏩')
 
+    # create a file uploader for PDFs
+        pdf_file = st.file_uploader("Upload a PDF file", type="pdf")
+
+        # if a PDF file is uploaded, extract its text
+        if pdf_file is not None:
+            pdf_memory = pdf_reader(pdf_file)
+
     if submit_button and user_input:
+
         output, total_tokens, prompt_tokens, completion_tokens = generate_response(user_input)
         st.session_state['past'].append(user_input)
         st.session_state['generated'].append(output)

@@ -1,3 +1,5 @@
+
+
 def pdf_reader(myPdf):
     from langchain.document_loaders import PyPDFLoader
 
