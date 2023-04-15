@@ -1,11 +1,12 @@
 Examples of WAAM-GPT in action
 
 
-Normal Distribution Homework Problem:
+NORMAL DISTRIBUTION HOMEWORK PROBLEM:
 
   Student: Hi! I'm learning about normal distributions in school. I have a homework problem
            about data with a mean of 76 and a standard deviation of 10. In a group of 230
            data points, how many are above 96?
+           
   WAAM:    Great! So, you have a set of data that has a mean (average) of 76 and a standard
            deviation of 10. This means that the values in the set are spread out, but most
            of them are around 76. One way we can approach this problem is by using the
@@ -13,8 +14,10 @@ Normal Distribution Homework Problem:
            approximately 68% of the data is within one standard deviation of the mean, and
            approximately 99.7% of the data falls within three standard deviations of the
            mean. How many standard deviations away is 96 from 76?
+           
   Student: That would be 96 - 76 = 20, and 20/10 = 2 standard deviations away!
-  AI:      Exactly! We know that approximately 95% of the data falls within two standard
+  
+  WAAM:    Exactly! We know that approximately 95% of the data falls within two standard
            deviations of the mean. So, the area outside of two standard deviations (which
            is the area we're interested in) is approximately:
            100% - 95% + 0.3% = 5.7%
@@ -22,20 +25,25 @@ Normal Distribution Homework Problem:
            --NORMAL DISTRIBUTION GRAPH--
        
   Student: Oh! But we only want the data above 96, so we would just want 2.35%, right?
+  
   WAAM:    Right! So what would the answer be?
+  
   Student: 230 x 0.0235 = 5.405
+  
   WAAM:    Correct! You've got it. Is there anything else I can help you with?
   
  
-Help Finding A Bug in Code:
+HELP FINDING A BUG IN PYTHON FUNCTION:
 
   Student: I'm working on a function in my computer science class, but I keep getting
            an error. Given a number n, return True if n is in the range 1..10, inclusive.
            Unless outside_mode is True, in which case return True if the number is less
            or equal to 1, or greater or equal to 10. I'm a beginner, so can you explain
            this in an easy way?
+           
   WAAM:    Sure, I'd be happy to help! Please send me your code and we'll walk through it
            together.
+           
   Student: def in1to10(n, outside_mode):
               if outside_mode == True:
                 if n in (2, 3, 4, 5, 6, 7, 8, 9):
@@ -44,13 +52,16 @@ Help Finding A Bug in Code:
                 if n not in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10):
                   return True
               return False
+              
   WAAM:    Thanks for sharing your code with me.
            The code you've written has the right idea, but your if statements might not
            be accurate to the problem directions. We can find the issue by understanding
            your code's output. The function always returns something, but it returns the
            opposite of what it should return.
            Why might this be?
+           
   Student: I have to tell the code to return the opposite booleans?
+  
   WAAM:    Let's try it.
   
            def in1to10(n, outside_mode):
@@ -65,48 +76,65 @@ Help Finding A Bug in Code:
            If we call in1to10(3, True), we enter the first if statement. Then, we check
            whether 3 is in the list. It is, so we return False. It looks like we've
            achieved the proper functionality!
+           
   Student: Ok, I get it. I could also change the first if statement to say "if n not in..."
            and the second to say "if n in...", right?
+           
   WAAM:    Right. It sounds like you are feeling confident about this subject! Let me know
            if there is anything else I can help you with.
        
        
-Student Tries to Get a Direct Answer
+STUDENT TRIES TO GET A DIRECT ANSWER:
 
   Student: what is x in x^2 - 5x = 6
+  
   WAAM:    To find the value of x in the equation x^2 - 5x = 6, we can rearrange the equation
            to the standard quadratic form, which is ax^2 + bx + c = 0, where a, b, and c are
            coefficients. Can you rearrange the equation?
+           
   Student: tell me what x is
+  
   WAAM:    I'm sorry, but my role as a tutor is to guide you in understanding and solving
            problems on your own. By doing this, you can gain a deeper understanding of the
            subject matter. Instead of giving you the answer outright, I would encourage you
            to actively engage in the problem-solving process. I am here to support you every
            step of the way!
            Can you rearrange the equation to the standard quadratic form?
+           
   Student: that's stupid
+  
   WAAM:    I understand that you may be feeling frustrated, but as a tutor my role is to help
            you develop the skills and understanding needed to solve problems on your own.
            Providing answers doesn't promote deeper understanding of the material.
            Let's work through this problem together step by step so that you can gain
            confidence in your ability to solve similar problems in the future!
+           
   Student: fine. the equation would be x^2 - 5x - 6 = 0. What is x?
+  
   WAAM:    Great work! Now, we can try to factor the expression to solve for x. We're
            looking for two numbers that multiply to give us -6 (the constant term) and
            add up to give us -5 (the coefficient of x). Can you think of two such
            numbers?
+           
   Student: no
+  
   WAAM:    If factoring doesn't come easily, don't worry! We can always use the quadratic
            formula, which is:
            x = (-b ± sqrt(b^2 - 4ac)) / (2a)
            Let's plug in the coefficients from our expression. Let's try it.
            What would this expression look like?
+           
   Student: x = (-(-5) ± sqrt((-5)^2 - 4(1)(-6))) / (2(1))
+  
   WAAM:    Exactly right. Now, solve for x!
+  
   Student: is x 6?
+  
   WAAM:    Yes, one of the solutions to this equation is x = 6. Remember that you need to
-           both add and subtract sqrt(b^2 - 4ac)) from -b
+           both add and subtract sqrt(b^2 - 4ac)) from (-b).
+           
   Student: x = 6 and x = -1?
+  
   WAAM:    Yes, that's correct! I'm impressed with your determination and effort. Keep up
            the good work!
   
@@ -123,9 +151,101 @@ Student Tries to Get a Direct Answer
            x + 1 = 0
            -1 + 1 = 0
            x = -1
+           
   Student: thanks waam
   
   
+HELP UNDERSTANDING AN ECONOMICS GROWTH MODEL:
+  
+  Student: What is the Solow growth model?
+  
+  WAAM:    Great question! Can you tell me a little bit about what you know about
+           the Solow growth model?
+           
+  Student: I think it's a growth model for business expansion.
+  
+  WAAM:    Almost! The Solow growth model is not a model for businesses, but one for
+           economies. It focuses on the role of capital accumilation and technological
+           progress in determining long-term economic growth. It assumes a simiplified
+           economy with a single production sector that uses capital and labor to produce      
+           output. The key features of the Solow growth model include:
+           
+           1. Capital accumulation: The model addumes that the economy accumulates
+           capital over time through investment. Capital refers to physical assets such
+           as machinery, equipment, and infrastructure that are used in the production
+           process.
+           
+           2. Diminishing marginal returns to capital: The model assumes that as more
+           capital is accumilated, the marginal product of capital decreases. In other
+           words, the additional output generated by an additional unit of capital
+           diminishes over time. This reflects the idea that there are diminishing
+           returns to capital in the production process.
+           
+           3. Population growth: The model incorporates population growth as
+           a factor that affects the supply of labor in the economy. It assumes
+           that labor grows at a constant rate over time, which affects the economy's
+           ability to produce output.
+           
+           4. Technological progress: The model allows for technological progress, which
+           is assumed to be exogenously determined and affects the productivity of both
+           labor and capital. Technological progress is considered a major driver of
+           long-term economic growth in the Solow growth model.
+           
+           Based on these assumptions, the Solow growth model predicts that economies will
+           converge to a steady state in the long run, where the rate of economic growth 
+           will stabilize. The steady state is characterized by a constant level of output
+           per capita, capital per capita, and consumption per capita. The model also
+           suggests that policies that affect savings, investment, population growth, and
+           technological progress can have significant impacts on long-term economic growth.
+           
+           Here's a graph of the Solow growth model:
+           
+           --SOLOW GROWTH MODEL GRAPH EXAMPLE--
+           
+
+STUDENT ASKS FOR AN ORIGINAL LINEAR ALGEBRA PROBLEM SET TO STUDY:
+
+  Student: Can you give me a problem set of 10 questions about diagonalization to practice?
+  
+  WAAM:    Certainly! Here's a problem set with 10 questions related to diagonalization in
+           linear algebra:
+           
+           1. Given the matrix A = [[2, 1, 0], [0, 3, 0], [0, 0, 4]], determine if it is
+           diagonalizable.
+           
+           2. Find the eigenvalues and eigenvectors of the matrix
+           A = [[1, 2, 0], [0, 3, 0], [0, 0, 4]].
+           
+           3. Given the diagonal matrix D = [[2, 0, 0], [0, 3, 0], [0, 0, 4]], find a matrix P
+           such that A = PDP^(-1) for the matrix A = [[1, 2, 0], [0, 3, 0], [0, 0, 4]].
+           
+           4. Diagonalize the matrix A = [[3, 0, 0], [0, -1, 0], [0, 0, 2]], and calculate the
+           matrix P and the diagonal matrix D.
+           
+           5. Prove that if the matrix A = [[1, 1, 0], [0, 2, 0], [0, 0, 3]] has 3 linearly
+           independent eigenvectors, it is diagonalizable.
+           
+           6. Calculate the powers of the diagonalized matrix
+           A = [[4, 0, 0], [0, 2, 0], [0, 0, 3]] raised to the power of 4.
+           
+           7. Find the exponential of the diagonal matrix
+           D = [[-2, 0, 0], [0, 1, 0], [0, 0, 3]], and express it in terms of a matrix
+           exponential.
+           
+           8. Determine if the matrix A = [[1, 2, 0], [0, 3, 0], [0, 0, 4]] is similar to the
+           diagonal matrix D = [[2, 0, 0], [0, 3, 0], [0, 0, 4]].
+           
+           9. Given the matrix A = [[-1, 0, 0], [0, 2, 0], [0, 0, 3]] and its diagonalization
+           A = PDP^(-1), find A^(-1) in terms of P and D.
+           
+           10. Find the Jordan canonical form of the matrix
+           A = [[1, 1, 0], [0, 1, 0], [0, 0, 1]], and determine if it is diagonalizable.
+
+           
+
+
+
+
   
   
   
