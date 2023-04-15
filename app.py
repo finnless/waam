@@ -4,7 +4,7 @@ from streamlit_chat import message
 import pandas as pd
 
 # Setting page title and header
-st.set_page_config(page_icon=":bulb:", page_title="WAAP-GPT")
+st.set_page_config(page_icon=":bulb:", page_title="WAAM-GPT")
 st.markdown("<div style='text-align: center;'><h1 style='display: inline-block;'> 💡WAAM-GPT</h1><h5 style='display: inline-block; margin-left: 10px; color: gray;'>homework help</h5></div>", unsafe_allow_html=True)
 
 # Set org ID and API key
@@ -14,7 +14,7 @@ openai.api_key = st.secrets["openai_key"]
 system_prompt = "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Never give a student the direct answer. Always use markdown for your responses. Always render equations using LaTeX."
 
 # Autogenerate message
-st.write("Welcome to WAAP! We are here to help you do well in school")
+st.write("Welcome to WAAP! We are here to help you do well in STEM subjects at school")
 
 # Create some data
 data = {
@@ -117,5 +117,5 @@ with container:
 if st.session_state['generated']:
     with response_container:
         for i in range(len(st.session_state['generated'])):
-            message(st.session_state["past"][i], is_user=True, key=str(i) + '_user')
-            message(st.session_state["generated"][i], key=str(i))
+            st.markdown(f"**You**: {st.session_state['past'][i]}", unsafe_allow_html=True)
+            st.markdown(f"**waam**: {st.session_state['generated'][i]}", unsafe_allow_html=True)
