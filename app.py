@@ -13,7 +13,7 @@ openai.api_key = st.secrets["openai_key"]
 system_prompt = "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Never give a student the direct answer. Always use markdown for your responses. Always render equations using LaTeX."
 
 # Autogenerate message
-st.write("Welcome to WAAP! We are here to help you do well in STEM subjects at school")
+st.write("Welcome to WAAM! We are here to help you do well in STEM subjects at school")
 
 # Create some data
 data = {
