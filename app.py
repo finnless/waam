@@ -2,6 +2,17 @@ import openai
 import streamlit as st
 import pandas as pd
 
+import sys
+# Add the directory containing mypdf.py to sys.path
+sys.path.append('/Users/finn/desktop/waam/pdfreader.py')
+# Now you should be able to import mypdf module
+
+import pdfreader as pdf_read
+
+pdf_read.pdf_reader()
+
+
+
 # Setting page title and header
 st.set_page_config(page_icon=":bulb:", page_title="WAAM-GPT")
 st.markdown("<div style='text-align: center;'><h1 style='display: inline-block;'> 💡WAAM-GPT</h1><h5 style='display: inline-block; margin-left: 10px; color: gray;'>homework help</h5></div>", unsafe_allow_html=True)
@@ -80,6 +91,12 @@ if clear_button:
 # generate a response
 def generate_response(prompt):
     st.session_state['messages'].append({"role": "user", "content": prompt})
+
+    
+    # Call the PDF reading functionality from mypdf module
+    pdf_data = pdf_read.pdf_reader(prompt)
+    # Process the PDF data and generate a response
+    response = pdf_data
 
     completion = openai.ChatCompletion.create(
         model=model,
