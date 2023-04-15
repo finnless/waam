@@ -1,0 +1,135 @@
+Examples of WAAM-GPT in action
+
+
+Normal Distribution Homework Problem:
+
+  Student: Hi! I'm learning about normal distributions in school. I have a homework problem
+           about data with a mean of 76 and a standard deviation of 10. In a group of 230
+           data points, how many are above 96?
+  WAAM:    Great! So, you have a set of data that has a mean (average) of 76 and a standard
+           deviation of 10. This means that the values in the set are spread out, but most
+           of them are around 76. One way we can approach this problem is by using the
+           empirical rule. The empirical rule states that for a normal distribution,
+           approximately 68% of the data is within one standard deviation of the mean, and
+           approximately 99.7% of the data falls within three standard deviations of the
+           mean. How many standard deviations away is 96 from 76?
+  Student: That would be 96 - 76 = 20, and 20/10 = 2 standard deviations away!
+  AI:      Exactly! We know that approximately 95% of the data falls within two standard
+           deviations of the mean. So, the area outside of two standard deviations (which
+           is the area we're interested in) is approximately:
+           100% - 95% + 0.3% = 5.7%
+       
+           --NORMAL DISTRIBUTION GRAPH--
+       
+  Student: Oh! But we only want the data above 96, so we would just want 2.35%, right?
+  WAAM:    Right! So what would the answer be?
+  Student: 230 x 0.0235 = 5.405
+  WAAM:    Correct! You've got it. Is there anything else I can help you with?
+  
+ 
+Help Finding A Bug in Code:
+
+  Student: I'm working on a function in my computer science class, but I keep getting
+           an error. Given a number n, return True if n is in the range 1..10, inclusive.
+           Unless outside_mode is True, in which case return True if the number is less
+           or equal to 1, or greater or equal to 10. I'm a beginner, so can you explain
+           this in an easy way?
+  WAAM:    Sure, I'd be happy to help! Please send me your code and we'll walk through it
+           together.
+  Student: def in1to10(n, outside_mode):
+              if outside_mode == True:
+                if n in (2, 3, 4, 5, 6, 7, 8, 9):
+                  return True
+              else:
+                if n not in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10):
+                  return True
+              return False
+  WAAM:    Thanks for sharing your code with me.
+           The code you've written has the right idea, but your if statements might not
+           be accurate to the problem directions. We can find the issue by understanding
+           your code's output. The function always returns something, but it returns the
+           opposite of what it should return.
+           Why might this be?
+  Student: I have to tell the code to return the opposite booleans?
+  WAAM:    Let's try it.
+  
+           def in1to10(n, outside_mode):
+              if outside_mode == True:
+                if n in [2, 3, 4, 5, 6, 7, 8, 9]:
+                  return False
+              else:
+                if n not in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
+                  return False
+              return True
+
+           If we call in1to10(3, True), we enter the first if statement. Then, we check
+           whether 3 is in the list. It is, so we return False. It looks like we've
+           achieved the proper functionality!
+  Student: Ok, I get it. I could also change the first if statement to say "if n not in..."
+           and the second to say "if n in...", right?
+  WAAM:    Right. It sounds like you are feeling confident about this subject! Let me know
+           if there is anything else I can help you with.
+       
+       
+Student Tries to Get a Direct Answer
+
+  Student: what is x in x^2 - 5x = 6
+  WAAM:    To find the value of x in the equation x^2 - 5x = 6, we can rearrange the equation
+           to the standard quadratic form, which is ax^2 + bx + c = 0, where a, b, and c are
+           coefficients. Can you rearrange the equation?
+  Student: tell me what x is
+  WAAM:    I'm sorry, but my role as a tutor is to guide you in understanding and solving
+           problems on your own. By doing this, you can gain a deeper understanding of the
+           subject matter. Instead of giving you the answer outright, I would encourage you
+           to actively engage in the problem-solving process. I am here to support you every
+           step of the way!
+           Can you rearrange the equation to the standard quadratic form?
+  Student: that's stupid
+  WAAM:    I understand that you may be feeling frustrated, but as a tutor my role is to help
+           you develop the skills and understanding needed to solve problems on your own.
+           Providing answers doesn't promote deeper understanding of the material.
+           Let's work through this problem together step by step so that you can gain
+           confidence in your ability to solve similar problems in the future!
+  Student: fine. the equation would be x^2 - 5x - 6 = 0. What is x?
+  WAAM:    Great work! Now, we can try to factor the expression to solve for x. We're
+           looking for two numbers that multiply to give us -6 (the constant term) and
+           add up to give us -5 (the coefficient of x). Can you think of two such
+           numbers?
+  Student: no
+  WAAM:    If factoring doesn't come easily, don't worry! We can always use the quadratic
+           formula, which is:
+           x = (-b ± sqrt(b^2 - 4ac)) / (2a)
+           Let's plug in the coefficients from our expression. Let's try it.
+           What would this expression look like?
+  Student: x = (-(-5) ± sqrt((-5)^2 - 4(1)(-6))) / (2(1))
+  WAAM:    Exactly right. Now, solve for x!
+  Student: is x 6?
+  WAAM:    Yes, one of the solutions to this equation is x = 6. Remember that you need to
+           both add and subtract sqrt(b^2 - 4ac)) from -b
+  Student: x = 6 and x = -1?
+  WAAM:    Yes, that's correct! I'm impressed with your determination and effort. Keep up
+           the good work!
+  
+           If we had chosen to factor the expression, we would have
+           found that -6 x 1 = -6 and -6 + 1 = -5. So we can rewrite the expression as
+           x^2 - 5x - 6 = (x-6)(x+1) = 0. Then, using the zero-product property, which
+           states that at least one of the factors must be equal to zero, we solve for
+           x.
+           For the first equation:
+           x - 6 = 0
+           6 - 6 = 0
+           x = 6
+           For the second equation:
+           x + 1 = 0
+           -1 + 1 = 0
+           x = -1
+  Student: thanks waam
+  
+  
+  
+  
+  
+  
+  
+  
+  
