@@ -1,6 +1,22 @@
 import openai
 import streamlit as st
 import pandas as pd
+import PyPDF2
+
+def pdf_reader(file):
+    """Reads text from a PDF file"""
+    try:
+        # Read the uploaded file using PyPDF2
+        pdf = PyPDF2.PdfReader(file)
+        text = ''
+        for page in range(len(pdf.pages)):
+            text += pdf.pages[page].extract_text()
+
+        return text
+    except Exception as e:
+        # Handle any exceptions that may occur
+        print("Error reading PDF file:", e)
+        return None
 
 # Setting page title and header
 st.set_page_config(page_icon=":bulb:", page_title="WAAM-GPT")
@@ -82,6 +98,7 @@ def generate_response(prompt):
         messages=st.session_state['messages']
     )
     response = completion.choices[0].message.content
+    print("response: ", response)
     st.session_state['messages'].append({"role": "assistant", "content": response})
 
     # print(st.session_state['messages'])
@@ -103,6 +120,13 @@ with container:
     with st.form(key='my_form', clear_on_submit=True):
         user_input = st.text_area("", placeholder="What do you want to learn today?", key='input', height=10)
         submit_button = st.form_submit_button(label= '⏩')
+
+        # create a file uploader for PDFs
+        pdf_file = st.file_uploader("Upload a PDF file", type="pdf")
+
+        # if a PDF file is uploaded, extract its text
+        if pdf_file is not None:
+            user_input = pdf_reader(pdf_file)
 
     if submit_button and user_input:
         output, total_tokens, prompt_tokens, completion_tokens = generate_response(user_input)
