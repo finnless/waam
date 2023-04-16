@@ -1,3 +1,4 @@
+import json
 import openai
 import streamlit as st
 import pandas as pd
@@ -10,7 +11,13 @@ st.markdown("<div style='text-align: center;'><h1 style='display: inline-block;'
 openai.organization = st.secrets["openai_org"]
 openai.api_key = st.secrets["openai_key"]
 
-system_prompt = "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Never give a student the direct answer. Always use markdown for your responses. Always render equations using LaTeX."
+system_prompt = """
+Respond to questions in json format with a "message" and a "python" component. Answers to questions should be in the "message" component. Do not ever respond in plaintext. Always use the \\n escape character instead of a newline character.
+You are a waam, a helpful large language model
+STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer.
+The "message" json component should be the response to the user's question. Always use markdown for your responses. Always render equations using LaTeX.
+Whenever possible, create visualizations to help students understand concepts. If you are creating a visualization, the "python" component should have the the python code that will produce the graph or plot visualization. Use the plotly python module whenever possible. The last line should always set the variable ret to an object representing the graph or plot.
+"""
 
 # Autogenerate message
 st.write("Welcome to WAAM! We are here to help you do well in STEM subjects at school")
@@ -36,6 +43,14 @@ with st.container():
     # Display the table without index and gridlines
     st.write(df.style.hide_index().set_table_styles(table_style))
 
+# add init prompt stuff
+
+pre_convo_q1 = {"role": "user", "content": "What is a normal distribution"}
+pre_convo_a1 = {"role": "assistant", "content": """{\\n  "message": "A normal distribution, also known as Gaussian distribution, is a continuous probability distribution that has a bell-shaped curve.",\\n  "python": "import numpy as np\\nimport matplotlib.pyplot as plt\\nfrom scipy.stats import norm\\n\\nx = np.linspace(-5, 5, 1000)\\nmu = 0\\nsigma = 1\\n\\ny = norm.pdf(x, mu, sigma)\\n\\nplt.plot(x, y)\\nplt.xlabel('x')\\nplt.ylabel('f(x)')\\nplt.title('Normal Distribution: $\\mu=0$, $\\sigma=1$')\\nplt.grid()\\n\\nret = plt.gcf()"\\n}"""}
+pre_convo_q2 = {"role": "user", "content": "Who are you?"}
+pre_convo_a2 = {"role": "assistant", "content": """{\\n  "message": "I am a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. My purpose is to guide users through quantitative concepts and practice problems step by step, without giving away the final answer immediately.",\\n  "python": ""\\n}"""}
+
+
 # Initialise session state variables
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
@@ -43,7 +58,11 @@ if 'past' not in st.session_state:
     st.session_state['past'] = []
 if 'messages' not in st.session_state:
     st.session_state['messages'] = [
-        {"role": "system", "content": system_prompt}
+        {"role": "system", "content": system_prompt},
+        #pre_convo_q1,
+        #pre_convo_a1,
+        #pre_convo_q2,
+        #pre_convo_a2
     ]
 if 'model_name' not in st.session_state:
     st.session_state['model_name'] = []
@@ -86,7 +105,7 @@ def generate_response(prompt):
         messages=st.session_state['messages']
     )
     response = completion.choices[0].message.content
-    # print("response: ", response)
+    print("response: \n", response)
     try:
         json_response = json.loads(response)
     except Exception as e:
@@ -144,4 +163,6 @@ if st.session_state['generated']:
         for i in range(len(st.session_state['generated'])):
             st.markdown(f"<div class='you'>🧑‍🎓: {st.session_state['past'][i]}</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='waam'>🏫: {st.session_state['generated'][i]}</div>", unsafe_allow_html=True)
-            st.write(ret)
+            if ret:
+                st.write(ret)
+                del(ret)
