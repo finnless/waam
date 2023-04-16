@@ -122,12 +122,35 @@ st.markdown("""
         .waam {
             background-color: #ffffff;
         }
+        .like {
+            position: absolute;
+            top: 0px;
+            right: 60px;
+        }
+        .dislike {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-# Display messages with appropriate CSS class
+# Define a dictionary to store the number of upvotes and downvotes for each message
+if 'votes' not in st.session_state:
+    st.session_state.votes = {}
+
+# Display messages with appropriate CSS class and upvote/downvote buttons
 if st.session_state['generated']:
     with response_container:
         for i in range(len(st.session_state['generated'])):
+            message = st.session_state['generated'][i]
             st.markdown(f"<div class='you'>🧑‍🎓: {st.session_state['past'][i]}</div>", unsafe_allow_html=True)
-            st.markdown(f"<div class='waam'>🏫: {st.session_state['generated'][i]}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='waam'>🏫: {message}</div>", unsafe_allow_html=True)
+            if message not in st.session_state.votes:
+                st.session_state.votes[message] = [0, 0]
+            upvote_button = st.button(f"👍 ({st.session_state.votes[message][0]})", key=f"upvote_{i}")
+            downvote_button = st.button(f"👎 ({st.session_state.votes[message][1]})", key=f"downvote_{i}")
+            if upvote_button:
+                st.session_state.votes[message][0] += 1
+            elif downvote_button:
+                st.session_state.votes[message][1] += 1
