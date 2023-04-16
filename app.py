@@ -57,16 +57,12 @@ if 'total_cost' not in st.session_state:
 
 # Sidebar - let user choose model, show total cost of current conversation, and let user clear the current conversation
 st.sidebar.title("Past Conversations")
-model_name = st.sidebar.radio("Choose a model:", ("GPT-3.5", "GPT-4"))
+model_name = "GPT-4"  # set the model_name variable to "GPT-4"
 counter_placeholder = st.sidebar.empty()
-counter_placeholder.write(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
 clear_button = st.sidebar.button("Clear Conversation", key="clear")
 
-# Map model names to OpenAI model IDs
-if model_name == "GPT-3.5":
-    model = "gpt-3.5-turbo"
-else:
-    model = "gpt-4"
+# Map model name to OpenAI model ID
+model = "gpt-4"
 
 # reset everything
 if clear_button:
@@ -108,19 +104,6 @@ with container:
     with st.form(key='my_form', clear_on_submit=True):
         user_input = st.text_area("", placeholder="What do you want to learn today?", key='input', height=10)
         submit_button = st.form_submit_button(label= '⏩')
-        # create a file uploader for PDFs
-        pdf_file = st.file_uploader("Upload a PDF file", type="pdf")
-
-        # if a PDF file is uploaded, extract its text
-        if pdf_file is not None:
-            pdf_reader = PyPDF2.PdfFileReader(pdf_file)
-            num_pages = pdf_reader.getNumPages()
-            text = ""
-            for page_num in range(num_pages):
-                page = pdf_reader.getPage(page_num)
-                page_text = page.extractText()
-                text += page_text
-            st.write(text)
 
     if submit_button and user_input:
         output, total_tokens, prompt_tokens, completion_tokens = generate_response(user_input)
