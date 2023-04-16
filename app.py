@@ -108,7 +108,7 @@ def generate_response(prompt):
         print('Could not load json')
         print(e)
 
-    st.session_state['messages'].append({"role": "assistant", "content": json_response})
+    st.session_state['messages'].append({"role": "assistant", "content": str(json_response)})
 
     # print(st.session_state['messages'])
     total_tokens = completion.usage.total_tokens
