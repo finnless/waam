@@ -68,7 +68,6 @@ with st.container():
     # Display the table without index and gridlines
     st.write(df.style.hide_index().set_table_styles(table_style))
 
-
 # Initialise session state variables
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
@@ -76,11 +75,7 @@ if 'past' not in st.session_state:
     st.session_state['past'] = []
 if 'messages' not in st.session_state:
     st.session_state['messages'] = [
-        {"role": "system", "content": system_prompt},
-        #pre_convo_q1,
-        #pre_convo_a1,
-        #pre_convo_q2,
-        #pre_convo_a2
+        {"role": "system", "content": system_prompt}
     ]
 if 'model_name' not in st.session_state:
     st.session_state['model_name'] = []
@@ -119,9 +114,7 @@ def generate_response(prompt):
         messages=st.session_state['messages']
     )
     response = completion.choices[0].message.content
-    print("response: \n", response)
-
-
+    print("response: ", response)
     st.session_state['messages'].append({"role": "assistant", "content": response})
 
     # print(st.session_state['messages'])
