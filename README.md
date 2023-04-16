@@ -1,5 +1,6 @@
 # waam
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/finnless/waam/run.py)
+
 Have you ever wanted help but you do not know who to go to? Generally, tutors do not allow students to search up homework problems on google or ask peers because they want students to think through what they are doing. You might have wanted to go to school approved tutoring places such as CMC’s QCL or Pomona’s QSC, but they might not be available on weekends when you actually do all your homework. 
 
 We sympathize with students so we want to build a platform that can help students with homework anytime they want help. Tutors will be more willing to approve this platform because it will never give homework solutions. What it will do instead is that It will clarify concepts that students are struggling with or provide hints for homework problems. 
