@@ -25,8 +25,8 @@ st.set_page_config(page_icon=":bulb:", page_title="WAAM-GPT")
 st.markdown("<div style='text-align: center;'><h1 style='display: inline-block;'> 💡WAAM-GPT</h1><h5 style='display: inline-block; margin-left: 10px; color: gray;'>homework help</h5></div>", unsafe_allow_html=True)
 
 # Set org ID and API key
-openai.organization = "org-g7sHaD0F2nWbXgynAv8nbmXI"
-openai.api_key = "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"
+openai.organization = "org-RoCVirkWXND84EMcUR5P0OGp"
+openai.api_key = "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"
 
 system_prompt = "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Never give a student the direct answer. Always use markdown for your responses. Always render equations using LaTeX."
 
@@ -132,7 +132,7 @@ with container:
 
         # if a PDF file is uploaded, extract its text
         if pdf_file is not None:
-            pdf_memory = pdf_reader(pdf_file)
+            user_input = pdf_reader(pdf_file)
 
     if submit_button and user_input:
 
