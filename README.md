@@ -1,5 +1,5 @@
 # waam
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/finnless/waam/run.py)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://finnless-waam-app-xf6cqs.streamlit.app/)
 
 Have you ever wanted help but you do not know who to go to? Generally, tutors do not allow students to search up homework problems on google or ask peers because they want students to think through what they are doing. You might have wanted to go to school approved tutoring places such as CMC’s QCL or Pomona’s QSC, but they might not be available on weekends when you actually do all your homework. 
 
