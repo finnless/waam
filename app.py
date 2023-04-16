@@ -75,16 +75,12 @@ if 'total_cost' not in st.session_state:
 
 # Sidebar - let user choose model, show total cost of current conversation, and let user clear the current conversation
 st.sidebar.title("Past Conversations")
-model_name = st.sidebar.radio("Choose a model:", ("GPT-3.5", "GPT-4"))
+model_name = "GPT-4"  # set the model_name variable to "GPT-4"
 counter_placeholder = st.sidebar.empty()
-counter_placeholder.write(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
 clear_button = st.sidebar.button("Clear Conversation", key="clear")
 
-# Map model names to OpenAI model IDs
-if model_name == "GPT-3.5":
-    model = "gpt-3.5-turbo"
-else:
-    model = "gpt-4"
+# Map model name to OpenAI model ID
+model = "gpt-4"
 
 # reset everything
 if clear_button:
@@ -154,15 +150,40 @@ st.markdown("""
         .waam {
             background-color: #ffffff;
         }
+        .like {
+            position: absolute;
+            top: 0px;
+            right: 60px;
+        }
+        .dislike {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-# Display messages with appropriate CSS class
+# Define a dictionary to store the number of upvotes and downvotes for each message
+if 'votes' not in st.session_state:
+    st.session_state.votes = {}
+
+# Display messages with appropriate CSS class and upvote/downvote buttons
 if st.session_state['generated']:
     with response_container:
         for i in range(len(st.session_state['generated'])):
+            message = st.session_state['generated'][i]
             st.markdown(f"<div class='you'>🧑‍🎓: {st.session_state['past'][i]}</div>", unsafe_allow_html=True)
-            st.markdown(f"<div class='waam'>🏫: {st.session_state['generated'][i]}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='waam'>🏫: {message}</div>", unsafe_allow_html=True)
             if ret:
                 st.write(ret)
+                # Not sure if this is what we want
                 del(ret)
+
+            if message not in st.session_state.votes:
+                st.session_state.votes[message] = [0, 0]
+            upvote_button = st.button(f"👍 ({st.session_state.votes[message][0]})", key=f"upvote_{i}")
+            downvote_button = st.button(f"👎 ({st.session_state.votes[message][1]})", key=f"downvote_{i}")
+            if upvote_button:
+                st.session_state.votes[message][0] += 1
+            elif downvote_button:
+                st.session_state.votes[message][1] += 1
