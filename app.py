@@ -25,8 +25,8 @@ st.set_page_config(page_icon=":bulb:", page_title="WAAM-GPT")
 st.markdown("<div style='text-align: center;'><h1 style='display: inline-block;'> 💡WAAM-GPT</h1><h5 style='display: inline-block; margin-left: 10px; color: gray;'>homework help</h5></div>", unsafe_allow_html=True)
 
 # Set org ID and API key
-openai.organization = "org-RoCVirkWXND84EMcUR5P0OGp"
-openai.api_key = "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"
+openai.organization = "empty"
+openai.api_key = "empty"
 
 system_prompt = "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Never give a student the direct answer. Always use markdown for your responses. Always render equations using LaTeX."
 
