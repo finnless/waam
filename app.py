@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import PyPDF2
 
+
 def pdf_reader(file):
     """Reads text from a PDF file"""
     try:
@@ -17,6 +18,7 @@ def pdf_reader(file):
         # Handle any exceptions that may occur
         print("Error reading PDF file:", e)
         return None
+
 
 # Setting page title and header
 st.set_page_config(page_icon=":bulb:", page_title="WAAM-GPT")
@@ -51,7 +53,7 @@ st.write("Welcome to WAAM! We are here to help you do well in STEM subjects at s
 data = {
     'Mathematics': ['Linear Algebra', 'Calculus I', 'Chaos Theory'],
     'Statistics': ['What is a normal distribution?', 'Chi-Square Distribution', 'Linear Regression'],
-    'Limitations': ['May occasionally generate incorrect information', 'Limited knowledge of world and events after 2021','still in beta version']
+    'Limitations': ['May occasionally generate incorrect information', 'Limited knowledge of world and events after 2021', 'still in beta version']
 }
 
 df = pd.DataFrame(data)
@@ -105,7 +107,7 @@ if clear_button:
     st.session_state['model_name'] = []
     st.session_state['total_cost'] = 0.0
 
-# generate a response
+
 def generate_response(prompt):
     st.session_state['messages'].append({"role": "user", "content": prompt})
 
@@ -123,6 +125,7 @@ def generate_response(prompt):
     completion_tokens = completion.usage.completion_tokens
     return response, total_tokens, prompt_tokens, completion_tokens
 
+
 # Define a custom style for the container
 container_style = 'position: relative; top: 300px; left: 100px;'
 
@@ -135,7 +138,7 @@ container.markdown('<div style="{}">'.format(container_style), unsafe_allow_html
 with container:
     with st.form(key='my_form', clear_on_submit=True):
         user_input = st.text_area("", placeholder="What do you want to learn today?", key='input', height=10)
-        submit_button = st.form_submit_button(label= '⏩')
+        submit_button = st.form_submit_button(label='⏩')
 
         # create a file uploader for PDFs
         pdf_file = st.file_uploader("Upload a PDF file", type="pdf")
