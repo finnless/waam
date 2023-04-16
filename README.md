@@ -1,4 +1,4 @@
-# waam
+# 💡waam
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://finnless-waam-app-xf6cqs.streamlit.app/)
 [![DevPost](https://img.shields.io/badge/DevPost-waam-blue?logo=DevPost)](https://devpost.com/software/waam)
 
