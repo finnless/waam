@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import PyPDF2
 
+
 def pdf_reader(file):
     """Reads text from a PDF file"""
     try:
@@ -18,6 +19,7 @@ def pdf_reader(file):
         print("Error reading PDF file:", e)
         return None
 
+
 # Setting page title and header
 st.set_page_config(page_icon=":bulb:", page_title="WAAM-GPT")
 st.markdown("<div style='text-align: center;'><h1 style='display: inline-block;'> 💡WAAM-GPT</h1><h5 style='display: inline-block; margin-left: 10px; color: gray;'>homework help</h5></div>", unsafe_allow_html=True)
@@ -26,7 +28,23 @@ st.markdown("<div style='text-align: center;'><h1 style='display: inline-block;'
 openai.organization = st.secrets["openai_org"]
 openai.api_key = st.secrets["openai_key"]
 
-system_prompt = "You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Never give a student the direct answer. Always use markdown for your responses. Always render equations using LaTeX."
+system_prompt = """
+You are a waam, a helpful large language model STEM tutor created during the 2023 5C Hackathon. You help users learn quantitative skills by guiding them through concepts and practice problems step by step instead of immediately giving away the final answer. Always use markdown for your responses. Always render equations using LaTeX.
+Whenever possible, create graphical visualizations to help students understand concepts. Use the plotly python module whenever possible. The last line should always set the variable ret to an object representing the graph or plot. If you are creating a visualization, create a codeblock with "figure" after the backticks like this:
+
+```figure
+import plotly.graph_objects as go
+fig = go.Figure()
+# Represent 1 as a dot
+fig.add_trace(go.Scatter(x=[1], y=[1], mode='markers', marker=dict(size=10), name='1'))
+# Represent another 1 as a dot
+fig.add_trace(go.Scatter(x=[2], y=[1], mode='markers', marker=dict(size=10), name='1'))
+# Configure the layout
+fig.update_layout(title='Visual Proof of 1 + 1 = 2', xaxis_title='Number of Dots', yaxis_title='', showlegend=False)
+# Set ret to the graph
+ret = fig
+```
+"""
 
 # Autogenerate message
 st.write("Welcome to WAAM! We are here to help you do well in STEM subjects at school")
@@ -35,7 +53,7 @@ st.write("Welcome to WAAM! We are here to help you do well in STEM subjects at s
 data = {
     'Mathematics': ['Linear Algebra', 'Calculus I', 'Chaos Theory'],
     'Statistics': ['What is a normal distribution?', 'Chi-Square Distribution', 'Linear Regression'],
-    'Limitations': ['May occasionally generate incorrect information', 'Limited knowledge of world and events after 2021','still in beta version']
+    'Limitations': ['May occasionally generate incorrect information', 'Limited knowledge of world and events after 2021', 'still in beta version']
 }
 
 df = pd.DataFrame(data)
@@ -89,7 +107,7 @@ if clear_button:
     st.session_state['model_name'] = []
     st.session_state['total_cost'] = 0.0
 
-# generate a response
+
 def generate_response(prompt):
     st.session_state['messages'].append({"role": "user", "content": prompt})
 
@@ -107,6 +125,7 @@ def generate_response(prompt):
     completion_tokens = completion.usage.completion_tokens
     return response, total_tokens, prompt_tokens, completion_tokens
 
+
 # Define a custom style for the container
 container_style = 'position: relative; top: 300px; left: 100px;'
 
@@ -119,7 +138,7 @@ container.markdown('<div style="{}">'.format(container_style), unsafe_allow_html
 with container:
     with st.form(key='my_form', clear_on_submit=True):
         user_input = st.text_area("", placeholder="What do you want to learn today?", key='input', height=10)
-        submit_button = st.form_submit_button(label= '⏩')
+        submit_button = st.form_submit_button(label='⏩')
 
         # create a file uploader for PDFs
         pdf_file = st.file_uploader("Upload a PDF file", type="pdf")
@@ -131,8 +150,25 @@ with container:
     if submit_button and user_input:
         output, total_tokens, prompt_tokens, completion_tokens = generate_response(user_input)
         st.session_state['past'].append(user_input)
-        st.session_state['generated'].append(output)
 
+        output_parts = []
+        if '```figure' in output:
+            print('DEBUG: FIGURE FOUND')
+            begin_figure_split = output.split('```figure')
+            output_parts.append(begin_figure_split[0])
+
+            end_figure_split = begin_figure_split[1].split('```')
+            figure = end_figure_split[0]
+            # label as figure
+            figure = 'figure\n' + figure
+            output_parts.append(figure)
+            # Response after figure
+            output_parts.append(end_figure_split[1])
+            # TODO THIS IS PROBABLY BROKEN FOR OUTPUTS WITH MULTIPLE CODE BLOCKS
+        else:
+            output_parts.append(output)
+
+        st.session_state['generated'].append(output_parts)
 # Define CSS styles for messages
 st.markdown("""
     <style>
@@ -164,13 +200,28 @@ if st.session_state['generated']:
     with response_container:
         for i in range(len(st.session_state['generated'])):
             message = st.session_state['generated'][i]
-            st.markdown(f"<div class='you'>🧑‍🎓: {st.session_state['past'][i]}</div>", unsafe_allow_html=True)
-            st.markdown(f"<div class='waam'>🏫: {message}</div>", unsafe_allow_html=True)
-            if message not in st.session_state.votes:
-                st.session_state.votes[message] = [0, 0]
-            upvote_button = st.button(f"👍 ({st.session_state.votes[message][0]})", key=f"upvote_{i}")
-            downvote_button = st.button(f"👎 ({st.session_state.votes[message][1]})", key=f"downvote_{i}")
+            question = st.session_state['past'][i]
+            st.markdown(f"<div class='you'>🧑‍🎓: {question}</div>", unsafe_allow_html=True)
+            for m in message:
+                print(m[:6])
+                if m[:6] == 'figure':
+                    print('DEBUG: EXECING FIGURE')
+                    # exec and render
+                    figure = m[6:]
+                    try:
+                        exec(figure)
+                        st.write(ret)
+                        ret = None
+                    except Exception as e:
+                        st.exception(f'Generated python code failed:\n{e}')
+                else:
+                    st.markdown(f"<div class='waam'>🏫: {m}</div>", unsafe_allow_html=True)
+
+            if question not in st.session_state.votes:
+                st.session_state.votes[question] = [0, 0]
+            upvote_button = st.button(f"👍 ({st.session_state.votes[question][0]})", key=f"upvote_{i}")
+            downvote_button = st.button(f"👎 ({st.session_state.votes[question][1]})", key=f"downvote_{i}")
             if upvote_button:
-                st.session_state.votes[message][0] += 1
+                st.session_state.votes[question][0] += 1
             elif downvote_button:
-                st.session_state.votes[message][1] += 1
+                st.session_state.votes[question][1] += 1
