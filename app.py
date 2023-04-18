@@ -211,6 +211,7 @@ if st.session_state['generated']:
                     try:
                         exec(figure)
                         st.write(ret)
+                        ret = None
                     except Exception as e:
                         st.exception(f'Generated python code failed:\n{e}')
                 else:
